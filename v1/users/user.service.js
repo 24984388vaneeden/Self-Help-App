@@ -13,12 +13,12 @@ module.exports = {
 };
 
 async function authenticate({ username, password }) {
-    //const user = users.find(u => u.username === username && u.password === password);
-    const user = users[0];
+    const user = users.find(u => u.username === username && u.password === password);
+    // const user = users[0];
 
     if (user) {
         const token = jwt.sign({ sub: user.id }, config.secret);
-        const { password, ...userWithoutPassword } = user;
+        const { ...userWithoutPassword } = user;
         return {
             ...userWithoutPassword,
             token
@@ -31,7 +31,9 @@ async function Register({firstName, lastName, email, password, confirmPassword})
 
     //Todo: validate email existance in db
     //Todo: password strength validation and confirmation
+
     //Todo: Password hashing
+    var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
 
     mc.connect();
